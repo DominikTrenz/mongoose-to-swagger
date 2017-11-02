@@ -21,11 +21,16 @@ function documentModel(Model) {
   const pathsToSchema = (parent, paths) => {
     Object.keys(paths).map(x => paths[x]).forEach(mongooseProp => {
       parent[mongooseProp.path] = {};
+      if (mongooseProp.options.docu == false) {
+        delete parent[mongooseProp.path];
+        return;
+      }
       const modelProp = parent[mongooseProp.path];
 
       if (mongooseProp.instance === 'Array') {
         modelProp.type = 'array';
         modelProp.items = {
+          title: mongooseProp.options.alias,
           properties: {}
         };
         if (mongooseProp.schema) {
