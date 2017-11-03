@@ -53,6 +53,10 @@ function documentModel(Model) {
         modelProp.required = mongooseProp.isRequired || false;
       } else {
         modelProp.type = adjustType(mongooseProp.instance);
+        // console.log(mongooseProp);
+        if(mongooseProp.enumValues && mongooseProp.enumValues.length>0){
+          modelProp.enum = mongooseProp.enumValues;
+        }
         modelProp.required = mongooseProp.isRequired || false;
       }
     });
